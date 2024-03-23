@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "164785343131",
+    "project_id": "thedogapp-a4d12",
+    "storage_bucket": "thedogapp-a4d12.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:164785343131:android:a59e1b175db4def93fd43e",
+        "android_client_info": {
+          "package_name": "com.example.thedogapi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "164785343131-41ssmqbbouag7pin6f3b33vk53fp03ms.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzXzMfsTUWfzIyCzdap2KcoXQz8ggjZyk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "164785343131-41ssmqbbouag7pin6f3b33vk53fp03ms.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "164785343131-gio9jauabqtrh3ph3jgusbkknb5rndf8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.thedogapi.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
