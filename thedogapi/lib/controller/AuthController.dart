@@ -37,7 +37,8 @@ class AuthController extends GetxController {
   void signout() async {
     await auth.signOut();
     successMessage('Logout');
-    Get.offAll(LoginPage());
+    // Get.offAll(LoginPage());
+    appRouter.pushNamedAndRemoveUntil(AppRoute.loginView, (route) => false);
   }
 
   void loginWithEmailPassword(String email, String password) async {

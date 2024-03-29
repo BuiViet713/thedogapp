@@ -64,17 +64,31 @@ class _DogaiState extends State<Dogai> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // appBar: AppBar(
+      //   title: Text(
+      //     'Danh sách yêu thích',
+      //     style: TextStyle(
+      //       color: Colors.black,
+      //       fontSize: 18,
+      //       fontWeight: FontWeight.bold,
+      //     ),
+      //   ),
+      //   backgroundColor: Colors.blue,
+      //   centerTitle: true,
+      // ),
       appBar: AppBar(
-        title: Text(
-          'Danh sách yêu thích',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
+        title: Container(
+          alignment: Alignment.center,
+          child: Text(
+            'Truy tìm giống chó',
+            style: TextStyle(
+              color: Color(0xFF8541DC),
+              fontSize: 28, // Kích thước chữ lớn hơn
+              fontWeight: FontWeight.bold, // Đậm
+              fontFamily: 'Roboto', // Sử dụng font chữ Roboto
+            ),
           ),
         ),
-        backgroundColor: Colors.blue,
-        centerTitle: true,
       ),
       body: Card(
         elevation: 4,

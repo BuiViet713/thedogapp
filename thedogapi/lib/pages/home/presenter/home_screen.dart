@@ -36,10 +36,19 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Dogs App',
-              style: typography?.medium?.copyWith(color: palette?.primaryColor),
+            Container(
+              alignment: Alignment.center,
+              child: Text(
+                'Dogs App',
+                style: typography?.medium?.copyWith(
+                  color: palette?.primaryColor,
+                  fontSize: 32, // Kích thước chữ lớn hơn
+                  fontWeight: FontWeight.bold, // Đậm
+                  fontFamily: 'Roboto', // Sử dụng font chữ Roboto
+                ),
+              ),
             ).marginOnly(bottom: 20),
+
             Container(
               width: double.infinity,
               height: 44.0.sp,

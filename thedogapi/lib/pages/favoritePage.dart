@@ -9,8 +9,22 @@ class FavoriteListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // appBar: AppBar(
+      //   title: Text('Danh Sách Yêu Thích'),
+      // ),
       appBar: AppBar(
-        title: Text('Danh Sách Yêu Thích'),
+        title: Container(
+          alignment: Alignment.center,
+          child: Text(
+            'Danh Sách Yêu Thích',
+            style: TextStyle(
+              color: Color(0xFF8541DC),
+              fontSize: 28, // Kích thước chữ lớn hơn
+              fontWeight: FontWeight.bold, // Đậm
+              fontFamily: 'Roboto', // Sử dụng font chữ Roboto
+            ),
+          ),
+        ),
       ),
       body: _buildFavoriteList(),
     );

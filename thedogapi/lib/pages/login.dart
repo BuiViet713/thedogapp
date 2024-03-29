@@ -1,7 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:thedogapi/Cofig/Messages.dart';
 import 'package:thedogapi/Cofig/PrimaryButton.dart';
 import 'package:thedogapi/Cofig/app/app_locator.dart';
@@ -11,8 +11,6 @@ import 'package:thedogapi/pages/home/presenter/home_screen.dart';
 import 'package:thedogapi/pages/signUp.dart';
 import 'package:thedogapi/pages/splash/presentater/splash_screen.dart';
 
-
-
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -21,6 +19,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  bool _isPasswordVisible = false;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -43,22 +43,22 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  _header(context) {
+  Widget _header(context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 20,),
+        SizedBox(height: 20),
         Text(
           "Welcome",
-          style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: Color.fromRGBO(67, 104, 80, 1.0)),
+          style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: Color(0xFF8541DC)),
         ),
-        SizedBox(height: 10), // Khoảng cách giữa hai dòng
+        SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
-              "MeapsBook",
-              style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: Color.fromRGBO(67, 104, 80, 1.0)),
+              "Dog App",
+              style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: Color(0xFF8541DC)),
             ),
           ],
         ),
@@ -66,41 +66,54 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  _inputField(context) {
+  Widget _inputField(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        SizedBox(height: 40), // Thêm dấu phẩy ở đây
+        SizedBox(height: 40),
         TextField(
           controller: emailController,
           decoration: InputDecoration(
-              hintText: "Username",
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(18),
-                  borderSide: BorderSide.none),
-              fillColor: Color.fromRGBO(67, 104, 80, 0.1),
-              filled: true,
-              prefixIcon: Icon(Icons.person, color: Color.fromRGBO(67, 104, 80, 1.0))),
+            hintText: "Username",
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(18),
+              borderSide: BorderSide.none,
+            ),
+            fillColor: Color.fromRGBO(67, 104, 80, 0.1),
+            filled: true,
+            prefixIcon: Icon(Icons.person, color: Color(0xFF8541DC)),
+          ),
         ),
         SizedBox(height: 10),
         TextField(
           controller: passwordController,
+          obscureText: !_isPasswordVisible,
           decoration: InputDecoration(
             hintText: "Password",
             border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(18),
-                borderSide: BorderSide.none),
+              borderRadius: BorderRadius.circular(18),
+              borderSide: BorderSide.none,
+            ),
             fillColor: Color.fromRGBO(67, 104, 80, 0.1),
             filled: true,
-            prefixIcon: Icon(Icons.lock, color: Color.fromRGBO(67, 104, 80, 1.0)),
+            prefixIcon: Icon(Icons.lock, color: Color(0xFF8541DC)),
+            suffixIcon: IconButton(
+              icon: Icon(
+                _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                color: Color(0xFF8541DC),
+              ),
+              onPressed: () {
+                setState(() {
+                  _isPasswordVisible = !_isPasswordVisible;
+                });
+              },
+            ),
           ),
-          obscureText: true,
         ),
-        SizedBox(height: 20), // Lùi xuống một chút ở đây
+        SizedBox(height: 20),
         ElevatedButton(
           onPressed: () {
             _loginWithEmailPassword();
-            // appRouter.pushNamedAndRemoveUntil(AppRoute.navBarRoots, (route) => false);
           },
           child: Text(
             "Login",
@@ -110,18 +123,46 @@ class _LoginPageState extends State<LoginPage> {
             shape: StadiumBorder(),
             padding: EdgeInsets.symmetric(vertical: 16),
           ),
-        )
+        ),
       ],
     );
   }
-   void _loginWithEmailPassword() {
+
+  void _loginWithEmailPassword() {
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      Fluttertoast.showToast(
+        msg: "Please enter both email and password",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      return;
+    }
+
+    if (password.length < 6) {
+      Fluttertoast.showToast(
+        msg: "Password should be at least 6 characters long",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      return;
+    }
+
     AuthController authController = Get.put(AuthController());
     authController.loginWithEmailPassword(email, password);
   }
 
-  _forgotPassword(context) {
+  Widget _forgotPassword(BuildContext context) {
     AuthController authController = Get.put(AuthController());
     return Padding(
       padding: const EdgeInsets.all(10),
@@ -131,11 +172,9 @@ class _LoginPageState extends State<LoginPage> {
             width: double.infinity,
             child: TextButton(
               onPressed: () {
-                _showForgotPasswordDialog(context); // Hiển thị hộp thoại quên mật khẩu
+                _showForgotPasswordDialog(context);
               },
-              child: Text("Forgot password?", style: TextStyle(
-                  fontSize: 14,
-                  color: Color.fromRGBO(67, 104, 80, 0.6))),
+              child: Text("Forgot password?", style: TextStyle(fontSize: 14, color: Color(0xFF8541DC))),
             ),
           ),
           SizedBox(height: 10),
@@ -144,25 +183,26 @@ class _LoginPageState extends State<LoginPage> {
             child: PrimaryButton(
               btnName: "LOGIN WITH GOOGLE",
               ontap: () {
-                authController.loginWithEmail();               
-                // appRouter.pushNamedAndRemoveUntil(AppRoute.navBarRoots, (route) => false);
+                authController.loginWithEmail();
               },
             ),
-          )
+          ),
         ],
       ),
     );
   }
 
-
   void _showForgotPasswordDialog(BuildContext context) {
     TextEditingController forgetPasswordController = TextEditingController();
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Forgot Password"),
-
+          title: Text(
+            "Forgot Password",
+            style: TextStyle(color: Color(0xFF8541DC)),
+          ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -171,32 +211,24 @@ class _LoginPageState extends State<LoginPage> {
                 decoration: InputDecoration(
                   hintText: "Enter your email",
                 ),
+                style: TextStyle(color: Color(0xFF8541DC)),
               ),
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
-                  // Xử lý quên mật khẩu ở đây
                   var forgotEmail = forgetPasswordController.text.trim();
                   try {
-
-                     // Kiểm tra xem email có được nhập hay không
-                  if (forgotEmail.isEmpty) {
-                    errorMessage("Please enter your email");
-                    return; // Dừng xử lý nếu email không được nhập
-                  }
-                    
-                    FirebaseAuth.instance
-                      . sendPasswordResetEmail(email: forgotEmail)
-                      .then((value) => {print('Email Sent !')}) ;
+                    if (forgotEmail.isEmpty) {
+                      errorMessage("Please enter your email");
+                      return;
+                    }
+                    await FirebaseAuth.instance.sendPasswordResetEmail(email: forgotEmail);
                     successMessage('Email Sent');
                     Get.offAll(LoginPage());
-
-                  } on FirebaseAuthException catch (e){
-                    print(" Error $e");
+                  } on FirebaseAuthException catch (e) {
+                    print("Error $e");
                   }
-
-
-                  Navigator.pop(context); // Đóng hộp thoại sau khi xử lý
+                  Navigator.pop(context);
                 },
                 child: Text("Reset Password"),
               ),
@@ -207,21 +239,22 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  _signup(context) {
+  Widget _signup(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text("Don't have an account? ", style: TextStyle(color: Color.fromRGBO(67, 104, 80, 1.0))),
-        TextButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => SignUpForm()), // Chuyển hướng sang trang đăng ký
-            );
-          },
-          child: Text("Sign Up", style: TextStyle(color: Color.fromRGBO(67, 104, 80, 1.0))),
-        )
-      ],
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+        Text("Don't have an account? ", style: TextStyle(color: Color(0xFF8541DC))),
+    TextButton(
+    onPressed: () {
+    Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => SignUpForm()),
+    );
+    },
+    child: Text("Sign Up", style:
+    TextStyle(color: Color(0xFF8541DC))),
+    )
+        ],
     );
   }
 }

@@ -6,6 +6,7 @@ import 'package:thedogapi/Cofig/colors.dart';
 import 'package:thedogapi/pages/favoritePage.dart';
 import 'package:thedogapi/pages/home/presenter/home_screen.dart';
 import 'package:thedogapi/pages/dogai.dart';
+import 'package:thedogapi/pages/profilePage.dart';
 
 
 
@@ -20,6 +21,7 @@ class _NavBarRootsState extends State<NavBarRoots> {
    HomeScreen(),
    Dogai(),
    FavoriteListView(),
+   ProfilePage(),
    
   ];
 
@@ -55,6 +57,8 @@ class _NavBarRootsState extends State<NavBarRoots> {
                 icon: Icon(Icons.category_rounded), label: "Scan"),
             BottomNavigationBarItem(
                 icon: Icon(Icons.favorite), label: "Yêu thích"),
+                 BottomNavigationBarItem(
+                icon: Icon(Icons.perm_identity), label: "Tài khoản"),
               
           ],
         ),
